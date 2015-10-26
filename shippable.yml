@@ -1,0 +1,5 @@
+infra:
+    clusters:
+        aye-aye:
+            provider: ECS
+            type: terraform
