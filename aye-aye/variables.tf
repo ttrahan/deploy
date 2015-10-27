@@ -11,9 +11,8 @@ variable "region"     {
   default     = "us-east-1" 
 }
 
-variable "key-name"     {
+variable "key_name"     {
   description = "Pem key associated with instances"
-  default     = "ragkey"
 }
 
 variable "availability_zone"     { 
