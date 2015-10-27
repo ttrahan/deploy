@@ -1,5 +1,5 @@
 infra:
     clusters:
-        aye-aye:
+        - aye-aye:
             provider: ECS
             type: terraform
