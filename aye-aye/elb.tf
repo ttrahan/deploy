@@ -9,6 +9,7 @@ resource "aws_elb" "shippable_aye_aye_ui_lb" {
     lb_port = 80
     lb_protocol = "http"
   }
+  instances = ["${aws_instance.app.*.id}"]
 }
 
 /* Load balancer */
@@ -22,4 +23,5 @@ resource "aws_elb" "shippable_aye_aye_api_lb" {
     lb_port = 80
     lb_protocol = "http"
   }
+  instances = ["${aws_instance.app.*.id}"]
 }
