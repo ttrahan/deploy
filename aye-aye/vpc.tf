@@ -1,3 +1,5 @@
+//========================== VPC  =============================
+
 /* Define a vpc */
 resource "aws_vpc" "demoVPC" {
   cidr_block = "${var.vpc_cidr_block}"
@@ -15,6 +17,8 @@ resource "aws_internet_gateway" "demoIG" {
   }
 }
 
+//========================== .0 Subnet =============================
+
 /* Public subnet */
 resource "aws_subnet" "demoPubSN0" {
   vpc_id = "${aws_vpc.demoVPC.id}"
@@ -22,7 +26,7 @@ resource "aws_subnet" "demoPubSN0" {
   availability_zone = "${var.availability_zone}"
   map_public_ip_on_launch = true
   tags {
-    Name = "shippable_aye_aye_pub_sn"
+    Name = "demoPubSN0"
   }
 }
 
@@ -44,8 +48,7 @@ resource "aws_route_table_association" "demoPubSN0RTAssn" {
   route_table_id = "${aws_route_table.demoPubSN0RT.id}"
 }
 
-
-/* Default security group */
+/* Public SubNet security group */
 resource "aws_security_group" "demoPubSG" {
   name = "demoPubSG"
   description = "Public Subnet security group"
@@ -63,7 +66,7 @@ resource "aws_security_group" "demoPubSG" {
     to_port = "0"
     protocol = "-1"
     cidr_blocks = [
-      "${var.public_subnet_cidr_block_0}"]
+      "${var.vpc_cidr_block}"]
   }
   egress {
     from_port = "0"
@@ -77,9 +80,9 @@ resource "aws_security_group" "demoPubSG" {
   }
 }
 
-/* Security group for the web */
-resource "aws_security_group" "demoLBSG" {
-  name = "demoLBSG"
+/* Load Balancer Security group */
+resource "aws_security_group" "demoWebSG" {
+  name = "demoWebSG"
   description = "Load Balancer security group"
   vpc_id = "${aws_vpc.demoVPC.id}"
 
@@ -92,7 +95,52 @@ resource "aws_security_group" "demoLBSG" {
   }
 
   tags {
-    Name = "demoLBSG"
+    Name = "demoWebSG"
   }
 }
 
+//========================== NAT =============================
+
+/* NAT Server */
+resource "aws_instance" "demoNAT" {
+  count = 1
+  ami = "ami-4f9fee26"
+  instance_type = "t2.micro"
+  subnet_id = "${aws_subnet.demoPubSN0.id}"
+  security_groups = [
+    "${aws_security_group.demoWebSG.id}"]
+  key_name = "${var.key_name}"
+  tags = {
+    Name = "demoNAT${count.index}"
+  }
+}
+
+//========================== .10 subnet ======================
+
+/* Private 10 subnet */
+resource "aws_subnet" "demoPrivSN10" {
+  vpc_id = "${aws_vpc.demoVPC.id}"
+  cidr_block = "${var.private_subnet_cidr_block_10}"
+  availability_zone = "${var.availability_zone}"
+  tags {
+    Name = "demoPrivSN10"
+  }
+}
+
+/* Routing table for private subnet */
+resource "aws_route_table" "demoPrivSN10RT" {
+  vpc_id = "${aws_vpc.demoVPC.id}"
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = "${aws_instance.demoNAT.id}"
+  }
+  tags {
+    Name = "demoPrivSN10RT"
+  }
+}
+
+/* Associate the routing table to private subnet */
+resource "aws_route_table_association" "demoPubSN0RTAssn" {
+  subnet_id = "${aws_subnet.demoPrivSN10.id}"
+  route_table_id = "${aws_route_table.demoPrivSN10RT.id}"
+}

@@ -27,7 +27,7 @@ variable "amis" {
 
 variable "key_name" {
   description = "Key Pair Name used to login to the box"
-  default = "qhode-vir-pem"
+  default = "demo-key" //this is a PEM key for key pairs
 }
 
 
