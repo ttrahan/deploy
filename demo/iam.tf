@@ -1,3 +1,4 @@
+# This is the ECS policy required so that agent has access to ECS service
 resource "aws_iam_policy" "demoECSPolicy" {
   name = "demoECSPolicy"
   description = "ECS Policy for the Demo"
@@ -36,6 +37,7 @@ resource "aws_iam_policy" "demoECSPolicy" {
 EOF
 }
 
+# AWS role for ECS
 resource "aws_iam_role" "demoECSRole" {
   name = "demoECSRole"
   assume_role_policy = <<EOF
@@ -63,13 +65,17 @@ resource "aws_iam_role" "demoECSRole" {
 EOF
 }
 
-resource "aws_iam_instance_profile" "demoECSInstProf" {
-  name = "demoECSInstProf"
-  roles = ["${aws_iam_role.demoECSRole.name}"]
-}
-
+# Attaching the role to the policy
 resource "aws_iam_policy_attachment" "demoRolePolicyAttacH" {
   name = "demoRolePolicyAttacH"
-  roles = ["${aws_iam_role.demoECSRole.name}"]
+  roles = [
+    "${aws_iam_role.demoECSRole.name}"]
   policy_arn = "${aws_iam_policy.demoECSPolicy.arn}"
+}
+
+# creating an instance profile so that container instances have right role
+resource "aws_iam_instance_profile" "demoECSInstProf" {
+  name = "demoECSInstProf"
+  roles = [
+    "${aws_iam_role.demoECSRole.name}"]
 }
