@@ -4,7 +4,7 @@ variable "aws_access_key" {
 }
 
 variable "aws_secret_key" {
-  description = "AWS secert access key"
+  description = "AWS secret access key"
 }
 
 variable "region" {
