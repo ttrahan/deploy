@@ -1,3 +1,107 @@
+# ========================ECS Instances=======================
+# ECS Instance Security group
+resource "aws_security_group" "demoInstSG" {
+  name = "demoInstSG"
+  description = "ECS instance security group"
+  vpc_id = "${aws_vpc.demoVPC.id}"
+
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = [
+      "0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = [
+      "0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port = 0
+    to_port = 0
+    protocol = "tcp"
+    cidr_blocks = [
+      "${var.public0-0CIDR}"]
+  }
+
+  egress {
+    # allow all traffic to private SN
+    from_port = "0"
+    to_port = "0"
+    protocol = "-1"
+    cidr_blocks = [
+      "0.0.0.0/0"]
+  }
+  tags {
+    Name = "demoInstSG"
+  }
+}
+
+# Container instances for ECS
+resource "aws_instance" "demoECSIns" {
+  count = 1
+
+  ami = "${var.ecsAmi}"
+  availability_zone = "${var.availability_zone}"
+  instance_type = "t2.micro"
+  key_name = "${var.aws_key_name}"
+  subnet_id = "${aws_subnet.demoPubSN0-0.id}"
+  iam_instance_profile = "${aws_iam_instance_profile.demoECSInstProf.name}"
+  associate_public_ip_address = true
+  source_dest_check = false
+
+  security_groups = [
+    "${aws_security_group.demoInstSG.id}"]
+
+  # add \ to cp so that it will overwrite the alias in .bashrc
+  provisioner "local-exec" {
+    command = "\\cp ecs.config tmpEcs${count.index}.config"
+  }
+
+  provisioner "local-exec" {
+    command = "sed -i '' 's/##KEY##/${var.dockerAuthData}/' tmpEcs${count.index}.config"
+  }
+
+  provisioner "local-exec" {
+    command = "echo ECS_CLUSTER=${aws_ecs_cluster.demoCL.name} >> tmpEcs${count.index}.config"
+  }
+
+  provisioner "file" {
+    source = "tmpEcs${count.index}.config"
+    destination = "ecs.config"
+
+    connection {
+      type = "ssh"
+      user = "ec2-user"
+      key_file = "${var.aws_key_filename}"
+      agent = true
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo cp ecs.config /etc/ecs/ecs.config"
+    ]
+
+    connection {
+      type = "ssh"
+      user = "ec2-user"
+      key_file = "${var.aws_key_filename}"
+      agent = true
+    }
+  }
+
+  tags = {
+    Name = "demoECSIns${count.index}"
+  }
+}
+
+# ========================Load Balancers=======================
 # Web Security group
 resource "aws_security_group" "demoWebSG" {
   name = "demoWebSG"
@@ -11,20 +115,6 @@ resource "aws_security_group" "demoWebSG" {
     cidr_blocks = [
       "0.0.0.0/0"]
   }
-  ingress {
-    from_port = 443
-    to_port = 443
-    protocol = "tcp"
-    cidr_blocks = [
-      "0.0.0.0/0"]
-  }
-  ingress {
-    from_port = -1
-    to_port = -1
-    protocol = "icmp"
-    cidr_blocks = [
-      "0.0.0.0/0"]
-  }
 
   egress {
     # allow all traffic to private SN
@@ -32,14 +122,12 @@ resource "aws_security_group" "demoWebSG" {
     to_port = "0"
     protocol = "-1"
     cidr_blocks = [
-      "${var.private0-1CIDR}"]
+      "${var.public0-0CIDR}"]
   }
   tags {
     Name = "demoWebSG"
   }
 }
-
-# ========================Load Balancers=======================
 
 # WWW Load balancer
 resource "aws_elb" "demoWWWLb" {
@@ -64,9 +152,6 @@ resource "aws_elb" "demoWWWLb" {
     target = "HTTP:80/"
     interval = 5
   }
-
-  instances = [
-    "${aws_instance.demoECSIns.*.id}"]
 }
 
 # API Load balancer
@@ -92,7 +177,4 @@ resource "aws_elb" "demoAAPILb" {
     target = "HTTP:80/"
     interval = 5
   }
-
-  instances = [
-    "${aws_instance.demoECSIns.*.id}"]
 }

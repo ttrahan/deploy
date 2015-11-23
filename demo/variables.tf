@@ -18,16 +18,21 @@ variable "availability_zone" {
 }
 
 # Special AMI for ECS container Service
-variable "amis" {
-  description = "Base AMI to launch the instances with"
-  default = {
-    us-east-1 = "ami-c16422a4"
-  }
+variable "ecsAmi" {
+  description = "default ECS AMI for us-east-1"
+  default = "ami-c16422a4"
+}
+
+# this is a keyName for key pairs
+variable "aws_key_name" {
+  description = "Key Pair Name used to login to the box"
+  default = "demo-key"
 }
 
 # this is a PEM key for key pairs
-variable "aws_key_name" {
-  description = "Key Pair Name used to login to the box"
+variable "aws_key_filename" {
+  description = "Key Pair FileName used to login to the box"
+  default = "demo-key.pem"
 }
 
 # all variables related to VPC
@@ -38,15 +43,20 @@ variable "vpc_name" {
 
 variable "networkCIDR" {
   description = "Uber IP addressing for the Network"
-  default = "10.0.0.0/16"
+  default = "200.0.0.0/16"
 }
 
 variable "public0-0CIDR" {
   description = "Public 0.0 CIDR for externally accesible subnet"
-  default = "10.0.0.0/24"
+  default = "200.0.0.0/24"
 }
 
-variable "private0-1CIDR" {
-  description = "Private 0.1 block for container instances"
-  default = "10.0.1.0/24"
+variable "dockerAuthType" {
+  description = "type of authentication for ECS pull"
+  default = "dockercfg"
+}
+
+variable "dockerAuthData" {
+  description = "actual Auth to use to login"
+  default = "c2hpcGRlcGxveTpzYXNoaW5hbTc1"
 }
