@@ -1,6 +1,6 @@
 infra:
     clusters:
-        - demo:
+        - default:
             provider: ECS
             type: terraform
             region: us-east-1
