@@ -58,5 +58,5 @@ variable "dockerAuthType" {
 
 variable "dockerAuthData" {
   description = "actual Auth to use to login"
-  default = "c2hpcGRlcGxveTpzYXNoaW5hbTc1"
+  default = "enter Key Here"
 }

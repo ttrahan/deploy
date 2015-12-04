@@ -58,6 +58,7 @@ resource "aws_instance" "demoECSIns" {
   security_groups = [
     "${aws_security_group.demoInstSG.id}"]
 
+  /*
   # add \ to cp so that it will overwrite the alias in .bashrc
   provisioner "local-exec" {
     command = "\\cp ecs.config tmpEcs${count.index}.config"
@@ -95,6 +96,7 @@ resource "aws_instance" "demoECSIns" {
       agent = true
     }
   }
+*/
 
   tags = {
     Name = "demoECSIns${count.index}"
@@ -129,52 +131,52 @@ resource "aws_security_group" "demoWebSG" {
   }
 }
 
-# WWW Load balancer
-resource "aws_elb" "demoWWWLb" {
-
-  name = "demoWWWLb"
-  subnets = [
-    "${aws_subnet.demoPubSN0-0.id}"]
-  security_groups = [
-    "${aws_security_group.demoWebSG.id}"]
-
-  listener {
-    instance_port = 80
-    instance_protocol = "http"
-    lb_port = 80
-    lb_protocol = "http"
-  }
-
-  health_check {
-    healthy_threshold = 2
-    unhealthy_threshold = 2
-    timeout = 3
-    target = "HTTP:80/"
-    interval = 5
-  }
-}
-
-# API Load balancer
-resource "aws_elb" "demoAAPILb" {
-
-  name = "demoAAPILb"
-  subnets = [
-    "${aws_subnet.demoPubSN0-0.id}"]
-  security_groups = [
-    "${aws_security_group.demoWebSG.id}"]
-
-  listener {
-    instance_port = 80
-    instance_protocol = "http"
-    lb_port = 80
-    lb_protocol = "http"
-  }
-
-  health_check {
-    healthy_threshold = 2
-    unhealthy_threshold = 2
-    timeout = 3
-    target = "HTTP:80/"
-    interval = 5
-  }
-}
+//# WWW Load balancer
+//resource "aws_elb" "demoWWWLb" {
+//
+//  name = "demoWWWLb"
+//  subnets = [
+//    "${aws_subnet.demoPubSN0-0.id}"]
+//  security_groups = [
+//    "${aws_security_group.demoWebSG.id}"]
+//
+//  listener {
+//    instance_port = 80
+//    instance_protocol = "http"
+//    lb_port = 80
+//    lb_protocol = "http"
+//  }
+//
+//  health_check {
+//    healthy_threshold = 2
+//    unhealthy_threshold = 2
+//    timeout = 3
+//    target = "HTTP:80/"
+//    interval = 5
+//  }
+//}
+//
+//# API Load balancer
+//resource "aws_elb" "demoAAPILb" {
+//
+//  name = "demoAAPILb"
+//  subnets = [
+//    "${aws_subnet.demoPubSN0-0.id}"]
+//  security_groups = [
+//    "${aws_security_group.demoWebSG.id}"]
+//
+//  listener {
+//    instance_port = 80
+//    instance_protocol = "http"
+//    lb_port = 80
+//    lb_protocol = "http"
+//  }
+//
+//  health_check {
+//    healthy_threshold = 2
+//    unhealthy_threshold = 2
+//    timeout = 3
+//    target = "HTTP:80/"
+//    interval = 5
+//  }
+//}
