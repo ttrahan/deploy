@@ -44,7 +44,7 @@ resource "aws_security_group" "demoInstSG" {
 
 # Container instances for ECS
 resource "aws_instance" "demoECSIns" {
-  count = 1
+  count = 2
 
   ami = "${var.ecsAmi}"
   availability_zone = "${var.availability_zone}"
