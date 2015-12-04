@@ -5,13 +5,13 @@ resource "aws_security_group" "demoInstSG" {
   description = "ECS instance security group"
   vpc_id = "${aws_vpc.demoVPC.id}"
 
-  ingress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = [
-      "0.0.0.0/0"]
-  }
+//  ingress {
+//    from_port = 0
+//    to_port = 0
+//    protocol = "-1"
+//    cidr_blocks = [
+//      "0.0.0.0/0"]
+//  }
 
   ingress {
     from_port = 22
@@ -131,52 +131,52 @@ resource "aws_security_group" "demoWebSG" {
   }
 }
 
-//# WWW Load balancer
-//resource "aws_elb" "demoWWWLb" {
-//
-//  name = "demoWWWLb"
-//  subnets = [
-//    "${aws_subnet.demoPubSN0-0.id}"]
-//  security_groups = [
-//    "${aws_security_group.demoWebSG.id}"]
-//
-//  listener {
-//    instance_port = 80
-//    instance_protocol = "http"
-//    lb_port = 80
-//    lb_protocol = "http"
-//  }
-//
-//  health_check {
-//    healthy_threshold = 2
-//    unhealthy_threshold = 2
-//    timeout = 3
-//    target = "HTTP:80/"
-//    interval = 5
-//  }
-//}
-//
-//# API Load balancer
-//resource "aws_elb" "demoAAPILb" {
-//
-//  name = "demoAAPILb"
-//  subnets = [
-//    "${aws_subnet.demoPubSN0-0.id}"]
-//  security_groups = [
-//    "${aws_security_group.demoWebSG.id}"]
-//
-//  listener {
-//    instance_port = 80
-//    instance_protocol = "http"
-//    lb_port = 80
-//    lb_protocol = "http"
-//  }
-//
-//  health_check {
-//    healthy_threshold = 2
-//    unhealthy_threshold = 2
-//    timeout = 3
-//    target = "HTTP:80/"
-//    interval = 5
-//  }
-//}
+# WWW Load balancer
+resource "aws_elb" "demoWWWLb" {
+
+  name = "demoWWWLb"
+  subnets = [
+    "${aws_subnet.demoPubSN0-0.id}"]
+  security_groups = [
+    "${aws_security_group.demoWebSG.id}"]
+
+  listener {
+    instance_port = 80
+    instance_protocol = "http"
+    lb_port = 80
+    lb_protocol = "http"
+  }
+
+  health_check {
+    healthy_threshold = 2
+    unhealthy_threshold = 2
+    timeout = 3
+    target = "HTTP:80/"
+    interval = 5
+  }
+}
+
+# API Load balancer
+resource "aws_elb" "demoAAPILb" {
+
+  name = "demoAAPILb"
+  subnets = [
+    "${aws_subnet.demoPubSN0-0.id}"]
+  security_groups = [
+    "${aws_security_group.demoWebSG.id}"]
+
+  listener {
+    instance_port = 80
+    instance_protocol = "http"
+    lb_port = 80
+    lb_protocol = "http"
+  }
+
+  health_check {
+    healthy_threshold = 2
+    unhealthy_threshold = 2
+    timeout = 3
+    target = "HTTP:80/"
+    interval = 5
+  }
+}
