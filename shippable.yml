@@ -1,6 +1,3 @@
-infra:
-    clusters:
-        - default:
-            provider: ECS
-            type: terraform
-            region: us-east-1
+deploy:
+    infra:
+        - terraform: default
