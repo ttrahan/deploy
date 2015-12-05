@@ -1,3 +1,4 @@
 deploy:
     infra:
         - terraform: default
+        
