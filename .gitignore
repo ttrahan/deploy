@@ -9,3 +9,5 @@ terraform.*
 local-setup.sh
 tmpEcs*.config
 demo-key.pem
+*.pem
+*.tfvars
