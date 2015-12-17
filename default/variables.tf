@@ -35,6 +35,11 @@ variable "aws_key_filename" {
   default = "demo-key.pem"
 }
 
+variable "cluster_name" {
+  description = "cluster name to register instances to"
+  default = "demo-ecs"
+}
+
 # all variables related to VPC
 variable "vpc_name" {
   description = "VPC for the cluster system"
