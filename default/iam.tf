@@ -31,6 +31,20 @@ resource "aws_iam_policy" "demoECSPolicy" {
             "Effect": "Allow",
             "Action": "autoscaling:*",
             "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchGetImage",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:InitiateLayerUpload",
+                "ecr:UploadLayerPart",
+                "ecr:CompleteLayerUpload",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:PutImage",
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*"
         }
     ]
 }
@@ -66,8 +80,8 @@ EOF
 }
 
 # Attaching the role to the policy
-resource "aws_iam_policy_attachment" "demoRolePolicyAttacH" {
-  name = "demoRolePolicyAttacH"
+resource "aws_iam_policy_attachment" "demoRolePolicyAttach" {
+  name = "demoRolePolicyAttach"
   roles = [
     "${aws_iam_role.demoECSRole.name}"]
   policy_arn = "${aws_iam_policy.demoECSPolicy.arn}"
