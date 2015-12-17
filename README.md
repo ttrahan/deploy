@@ -1,11 +1,11 @@
 # aye-aye-deploy
 This repository contains the files necessary to set up an Amazon EC2 Container Service infrastructure using Terraform, for use with Shippable Formations and the Aye Aye demo.  
 
-The Aye Aye demo consists of two services that run in containers:
+**The Aye Aye demo consists of two services that run in containers:**
 * A front-end web service
 * A back-end api service
 
-This sample infrastructure establishes a public subnet with the following components:
+**This sample infrastructure establishes a public subnet with the following components:**
 * 1 VPC and associated components (subnet, internet gateway, etc.)
 * ELB for web service accepting traffic on port 80
 * ELB for api service accepting traffic on port 80
@@ -13,7 +13,7 @@ This sample infrastructure establishes a public subnet with the following compon
 * IAM policy, role and instance profile
 * Security groups for accessing instances and load balancers
 
-Instructions for setting up the Amazon ECS environment
+**Instructions for setting up the Amazon ECS environment**
 * Create a cluster in Amazon EC2 Container Service
 * Install the Terraform CLI on your machine
 * Fork this repo and clone to your local machine
@@ -38,4 +38,4 @@ $ terraform destroy -var aws_access_key_id=yourKeyId -var aws_secret_access_key=
 -var aws_key_name=yourKeyPairName -var cluster_name=yourClusterName
 ```
 
-Warning: These actions will provision infrastructure on AWS and may incur costs.
+**Warning: These actions will provision infrastructure on AWS and may incur costs.**
