@@ -20,7 +20,7 @@ variable "availability_zone" {
 # Special AMI for ECS container Service
 variable "ecsAmi" {
   description = "default ECS AMI for us-east-1"
-  default = "ami-ddc7b6b7"
+  default = "ami-840e42ee"
 }
 
 # this is a keyName for key pairs
