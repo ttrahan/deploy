@@ -21,7 +21,7 @@ This repository contains the files necessary to set up an Amazon EC2 Container S
 * Gather the following information from your AWS account:
   * An Amazon Access Key ID and Secret Access Key with rights to install infrastructure
   * Amazon ECS cluster name that you'll register this infrastructure with (created above)
-  * An Amazon Key Pair name (usable in the us-east-1 region)
+  * An Amazon Key Pair name (usable in the us-east-1 region if you will use Amazon ECR)
 * Execute the following command to see what will be set up on AWS:
 ```
 $ terraform plan -var aws_access_key_id=yourKeyId -var aws_secret_access_key=yourSecretKey
