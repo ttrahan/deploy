@@ -20,7 +20,7 @@ variable "availability_zone" {
 # Special AMI for ECS container Service
 variable "ecsAmi" {
   description = "default ECS AMI for us-east-1"
-  default = "ami-ddc7b6b7"
+  default = "ami-840e42ee"
 }
 
 # this is a keyName for key pairs
@@ -33,6 +33,11 @@ variable "aws_key_name" {
 variable "aws_key_filename" {
   description = "Key Pair FileName used to login to the box"
   default = "demo-key.pem"
+}
+
+variable "cluster_name" {
+  description = "cluster name to register instances to"
+  default = "default"
 }
 
 # all variables related to VPC

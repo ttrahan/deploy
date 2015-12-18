@@ -54,6 +54,7 @@ resource "aws_instance" "demoECSIns" {
   iam_instance_profile = "${aws_iam_instance_profile.demoECSInstProf.name}"
   associate_public_ip_address = true
   source_dest_check = false
+  user_data = "#!/bin/bash \n echo ECS_CLUSTER=${var.cluster_name} >> /etc/ecs/ecs.config"
 
   security_groups = [
     "${aws_security_group.demoInstSG.id}"]
@@ -166,9 +167,9 @@ resource "aws_elb" "demoWWWLb" {
 }
 
 # API Load balancer
-resource "aws_elb" "demoAAPILb" {
+resource "aws_elb" "demoAPILb" {
 
-  name = "demoAAPILb"
+  name = "demoAPILb"
   subnets = [
     "${aws_subnet.demoPubSN0-0.id}"]
   security_groups = [
