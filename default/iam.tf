@@ -42,7 +42,8 @@ resource "aws_iam_policy" "demoECSPolicy" {
                 "ecr:CompleteLayerUpload",
                 "ecr:BatchCheckLayerAvailability",
                 "ecr:PutImage",
-                "ecr:GetAuthorizationToken"
+                "ecr:GetAuthorizationToken",
+                "ecr:CreateRegistry"
             ],
             "Resource": "*"
         }
