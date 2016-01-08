@@ -14,7 +14,7 @@ This repository contains the files necessary to set up an Amazon EC2 Container S
 * Security groups for accessing instances and load balancers
 
 **Instructions for setting up the Amazon ECS environment**
-* Create a cluster in Amazon EC2 Container Service
+* Create a cluster in Amazon EC2 Container Service (this is really just naming your cluster)
 * [Install the Terraform CLI](https://terraform.io/intro/getting-started/install.html) on your machine
 * Fork this repo and clone to your local machine
 * cd to the /deploy/default directory on your machine
