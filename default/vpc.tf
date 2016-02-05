@@ -22,7 +22,7 @@ resource "aws_internet_gateway" "demoIG" {
 resource "aws_subnet" "demoPubSN0-0" {
   vpc_id = "${aws_vpc.demoVPC.id}"
   cidr_block = "${var.public0-0CIDR}"
-  availability_zone = "${var.availability_zone}"
+  availability_zone = "${lookup(var.availability_zone, var.region)}"
   tags {
     Name = "demoPubSN0-0-0"
   }

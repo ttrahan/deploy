@@ -46,8 +46,9 @@ resource "aws_security_group" "demoInstSG" {
 resource "aws_instance" "demoECSIns" {
   count = 2
 
-  ami = "${var.ecsAmi}"
-  availability_zone = "${var.availability_zone}"
+  # ami = "${var.ecsAmi}"
+  ami = "${lookup(var.ecsAmi, var.region)}"
+  availability_zone = "${lookup(var.availability_zone, var.region)}"
   instance_type = "t2.micro"
   key_name = "${var.aws_key_name}"
   subnet_id = "${aws_subnet.demoPubSN0-0.id}"

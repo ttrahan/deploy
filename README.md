@@ -24,18 +24,15 @@ This repository contains the files necessary to set up an Amazon EC2 Container S
   * An Amazon Key Pair name (usable in the us-east-1 region if you will use Amazon ECR)
 * Execute the following command to see what will be set up on AWS:
 ```
-$ terraform plan -var aws_access_key_id=yourKeyId -var aws_secret_access_key=yourSecretKey
--var aws_key_name=yourKeyPairName -var cluster_name=yourClusterName
+$ terraform plan -var aws_access_key_id=yourKeyId -var aws_secret_access_key=yourSecretKey -var aws_key_name=yourKeyPairName -var cluster_name=yourClusterName
 ```
 * Execute the following command to install the infrastructure:
 ```
-$ terraform apply -var aws_access_key_id=yourKeyId -var aws_secret_access_key=yourSecretKey
--var aws_key_name=yourKeyPairName -var cluster_name=yourClusterName
+$ terraform apply -var aws_access_key_id=yourKeyId -var aws_secret_access_key=yourSecretKey -var aws_key_name=yourKeyPairName -var cluster_name=yourClusterName
 ```
 * When you're ready to remove this infrastructure, run the following:
 ```
-$ terraform destroy -var aws_access_key_id=yourKeyId -var aws_secret_access_key=yourSecretKey
--var aws_key_name=yourKeyPairName -var cluster_name=yourClusterName
+$ terraform destroy -var aws_access_key_id=yourKeyId -var aws_secret_access_key=yourSecretKey -var aws_key_name=yourKeyPairName -var cluster_name=yourClusterName
 ```
 
 **Warning: These actions will provision infrastructure on AWS and may incur costs.**

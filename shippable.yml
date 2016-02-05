@@ -3,5 +3,6 @@ deploy:
         - terraform: default
 
     env:
-        - TF_VAR_aws_key_name=kp-east-1
+        - TF_VAR_region=us-east-1
+        - TF_VAR_aws_key_name=kp-us-east-1
         - TF_VAR_cluster_name=demo-shippable-ecr
