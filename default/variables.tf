@@ -30,7 +30,7 @@ variable "availability_zone" {
 # Note: changes occur regularly to the list of recommended AMIs.  Verify at
 # http://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_container_instance.html
 variable "ecsAmi" {
-  description = "default ECS AMI for us-east-1"
+  description = "optimized ECS AMIs"
   default = {
     us-east-1 = "ami-cb2305a1"
     us-west-1 = "ami-bdafdbdd"
