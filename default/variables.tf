@@ -40,7 +40,7 @@ variable "ecsAmi" {
     ap-northeast-1 = "ami-e9724c87"
     ap-southeast-1 = "ami-5f31fd3c"
     ap-southeast-2 = "ami-83af8ae0"
-  }"ami-cb2305a1"
+  }
 }
 
 # this is a keyName for key pairs
