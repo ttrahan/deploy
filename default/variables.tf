@@ -15,10 +15,10 @@ variable "region" {
 variable "availability_zone" {
   description = "availability zone used for the demo"
   default = {
-    us-east-1	=	"us-east-1a"
-    us-west-1	= "us-west-1a"
-    us-west-2	= "us-west-2a"
-    eu-west-1	= "eu-west-1a"
+    us-east-1 = "us-east-1a"
+    us-west-1 = "us-west-1a"
+    us-west-2 = "us-west-2a"
+    eu-west-1 = "eu-west-1a"
     eu-central-1 = "eu-central-1a"
     ap-northeast-1 = "ap-northeast-1a"
     ap-southeast-1 = "ap-southeast-1a"
@@ -32,10 +32,10 @@ variable "availability_zone" {
 variable "ecsAmi" {
   description = "default ECS AMI for us-east-1"
   default = {
-    us-east-1	=	"ami-cb2305a1"
-    us-west-1	= "ami-bdafdbdd"
-    us-west-2	= "ami-ec75908c"
-    eu-west-1	= "ami-13f84d60"
+    us-east-1 = "ami-cb2305a1"
+    us-west-1 = "ami-bdafdbdd"
+    us-west-2 = "ami-ec75908c"
+    eu-west-1 = "ami-13f84d60"
     eu-central-1 = "ami-c3253caf"
     ap-northeast-1 = "ami-e9724c87"
     ap-southeast-1 = "ami-5f31fd3c"
