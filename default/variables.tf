@@ -33,13 +33,13 @@ variable "ecsAmi" {
   description = "optimized ECS AMIs"
   default = {
     us-east-1 = "ami-cb2305a1"
-    us-west-1 = "ami-bdafdbdd"
-    us-west-2 = "ami-ec75908c"
-    eu-west-1 = "ami-13f84d60"
-    eu-central-1 = "ami-c3253caf"
-    ap-northeast-1 = "ami-e9724c87"
-    ap-southeast-1 = "ami-5f31fd3c"
-    ap-southeast-2 = "ami-83af8ae0"
+    us-west-1 = "ami-26f78746"
+    us-west-2 = "ami-65866a05"
+    eu-west-1 = "ami-77ab1504"
+    eu-central-1 = "ami-341efb5b"
+    ap-northeast-1 = "ami-b3afa2dd"
+    ap-southeast-1 = "ami-0cb0786f"
+    ap-southeast-2 = "ami-cf6342ac"
   }
 }
 

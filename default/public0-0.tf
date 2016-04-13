@@ -60,46 +60,6 @@ resource "aws_instance" "demoECSIns" {
   security_groups = [
     "${aws_security_group.demoInstSG.id}"]
 
-  /*
-  # add \ to cp so that it will overwrite the alias in .bashrc
-  provisioner "local-exec" {
-    command = "\\cp ecs.config tmpEcs${count.index}.config"
-  }
-
-  provisioner "local-exec" {
-    command = "sed -i '' 's/##KEY##/${var.dockerAuthData}/' tmpEcs${count.index}.config"
-  }
-
-  provisioner "local-exec" {
-    command = "echo ECS_CLUSTER=${aws_ecs_cluster.demoCL.name} >> tmpEcs${count.index}.config"
-  }
-
-  provisioner "file" {
-    source = "tmpEcs${count.index}.config"
-    destination = "ecs.config"
-
-    connection {
-      type = "ssh"
-      user = "ec2-user"
-      key_file = "${var.aws_key_filename}"
-      agent = true
-    }
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo cp ecs.config /etc/ecs/ecs.config"
-    ]
-
-    connection {
-      type = "ssh"
-      user = "ec2-user"
-      key_file = "${var.aws_key_filename}"
-      agent = true
-    }
-  }
-*/
-
   tags = {
     Name = "demoECSIns${count.index}"
   }
@@ -142,6 +102,31 @@ resource "aws_elb" "demoWWWLb" {
   security_groups = [
     "${aws_security_group.demoWebSG.id}"]
 
+  listener {
+    instance_port = 50000
+    instance_protocol = "http"
+    lb_port = 50000
+    lb_protocol = "http"
+  }
+
+  health_check {
+    healthy_threshold = 2
+    unhealthy_threshold = 2
+    timeout = 3
+    target = "HTTP:80/"
+    interval = 5
+  }
+}
+
+# API Load balancer
+resource "aws_elb" "demoAPILb" {
+
+  name = "demoAPILb"
+  subnets = [
+    "${aws_subnet.demoPubSN0-0.id}"]
+  security_groups = [
+    "${aws_security_group.demoWebSG.id}"]
+
   #run time a lot of things change here. So ignore
 //  lifecycle {
 //    ignore_changes = [
@@ -167,10 +152,35 @@ resource "aws_elb" "demoWWWLb" {
   }
 }
 
-# API Load balancer
-resource "aws_elb" "demoAPILb" {
+# WWW Load balancer
+resource "aws_elb" "demoWWWLb-prod" {
 
-  name = "demoAPILb"
+  name = "demoWWWLb-prod"
+  subnets = [
+    "${aws_subnet.demoPubSN0-0.id}"]
+  security_groups = [
+    "${aws_security_group.demoWebSG.id}"]
+
+  listener {
+    instance_port = 50000
+    instance_protocol = "http"
+    lb_port = 50000
+    lb_protocol = "http"
+  }
+
+  health_check {
+    healthy_threshold = 2
+    unhealthy_threshold = 2
+    timeout = 3
+    target = "HTTP:80/"
+    interval = 5
+  }
+}
+
+# API Load balancer
+resource "aws_elb" "demoAPILb-prod" {
+
+  name = "demoAPILb-prod"
   subnets = [
     "${aws_subnet.demoPubSN0-0.id}"]
   security_groups = [
