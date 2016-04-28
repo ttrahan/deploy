@@ -3,6 +3,8 @@
 # Define a vpc
 resource "aws_vpc" "demoVPC" {
   cidr_block = "${var.networkCIDR}"
+  enable_dns_support = true
+  enable_dns_hostnames = true
   tags {
     Name = "${var.vpc_name}"
   }

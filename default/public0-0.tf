@@ -55,13 +55,36 @@ resource "aws_instance" "demoECSIns" {
   iam_instance_profile = "${aws_iam_instance_profile.demoECSInstProf.name}"
   associate_public_ip_address = true
   source_dest_check = false
-  user_data = "#!/bin/bash \n echo ECS_CLUSTER=${var.cluster_name} >> /etc/ecs/ecs.config"
+  user_data = "#!/bin/bash \n echo ECS_CLUSTER=demo-shippable-ecs >> /etc/ecs/ecs.config"
 
   security_groups = [
     "${aws_security_group.demoInstSG.id}"]
 
   tags = {
     Name = "demoECSIns${count.index}"
+  }
+}
+
+# Container instances for ECS
+resource "aws_instance" "demoECSIns-test" {
+  count = 2
+
+  # ami = "${var.ecsAmi}"
+  ami = "${lookup(var.ecsAmi, var.region)}"
+  availability_zone = "${lookup(var.availability_zone, var.region)}"
+  instance_type = "t2.micro"
+  key_name = "${var.aws_key_name}"
+  subnet_id = "${aws_subnet.demoPubSN0-0.id}"
+  iam_instance_profile = "${aws_iam_instance_profile.demoECSInstProf.name}"
+  associate_public_ip_address = true
+  source_dest_check = false
+  user_data = "#!/bin/bash \n echo ECS_CLUSTER=demo-shippable-ecs-test >> /etc/ecs/ecs.config"
+
+  security_groups = [
+    "${aws_security_group.demoInstSG.id}"]
+
+  tags = {
+    Name = "demoECSIns-test${count.index}"
   }
 }
 
@@ -130,6 +153,133 @@ resource "aws_elb" "demoWWWLb" {
 resource "aws_elb" "demoAPILb" {
 
   name = "demoAPILb"
+  subnets = [
+    "${aws_subnet.demoPubSN0-0.id}"]
+  security_groups = [
+    "${aws_security_group.demoWebSG.id}"]
+
+  #run time a lot of things change here. So ignore
+//  lifecycle {
+//    ignore_changes = [
+//      "listener",
+//      "instances",
+//      "health_check"
+//    ]
+//  }
+
+  listener {
+    instance_port = 50000
+    instance_protocol = "http"
+    lb_port = 50000
+    lb_protocol = "http"
+  }
+
+  health_check {
+    healthy_threshold = 2
+    unhealthy_threshold = 2
+    timeout = 3
+    target = "HTTP:80/"
+    interval = 5
+  }
+}
+
+# WWW Load balancer
+resource "aws_elb" "demoWWWLb-test" {
+
+  name = "demoWWWLb-test"
+  subnets = [
+    "${aws_subnet.demoPubSN0-0.id}"]
+  security_groups = [
+    "${aws_security_group.demoWebSG.id}"]
+
+  listener {
+    instance_port = 50000
+    instance_protocol = "http"
+    lb_port = 50000
+    lb_protocol = "http"
+  }
+
+  health_check {
+    healthy_threshold = 2
+    unhealthy_threshold = 2
+    timeout = 3
+    target = "HTTP:80/"
+    interval = 5
+  }
+}
+
+# API-Test Load balancer
+resource "aws_elb" "demoAPILb-test" {
+
+  name = "demoAPILb-test"
+  subnets = [
+    "${aws_subnet.demoPubSN0-0.id}"]
+  security_groups = [
+    "${aws_security_group.demoWebSG.id}"]
+
+  #run time a lot of things change here. So ignore
+//  lifecycle {
+//    ignore_changes = [
+//      "listener",
+//      "instances",
+//      "health_check"
+//    ]
+//  }
+
+  listener {
+    instance_port = 50000
+    instance_protocol = "http"
+    lb_port = 50000
+    lb_protocol = "http"
+  }
+
+  health_check {
+    healthy_threshold = 2
+    unhealthy_threshold = 2
+    timeout = 3
+    target = "HTTP:80/"
+    interval = 5
+  }
+}
+
+# DV Load balancer
+resource "aws_elb" "demoDVLb" {
+
+  name = "demoDVLb"
+  subnets = [
+    "${aws_subnet.demoPubSN0-0.id}"]
+  security_groups = [
+    "${aws_security_group.demoWebSG.id}"]
+
+  #run time a lot of things change here. So ignore
+//  lifecycle {
+//    ignore_changes = [
+//      "listener",
+//      "instances",
+//      "health_check"
+//    ]
+//  }
+
+  listener {
+    instance_port = 50000
+    instance_protocol = "http"
+    lb_port = 50000
+    lb_protocol = "http"
+  }
+
+  health_check {
+    healthy_threshold = 2
+    unhealthy_threshold = 2
+    timeout = 3
+    target = "HTTP:80/"
+    interval = 5
+  }
+}
+
+# DV Load balancer
+resource "aws_elb" "demoBOXLb" {
+
+  name = "demoBOXLb"
   subnets = [
     "${aws_subnet.demoPubSN0-0.id}"]
   security_groups = [
