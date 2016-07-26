@@ -242,7 +242,7 @@ resource "aws_elb" "demoAPILb-test" {
   }
 }
 
-# DV Load balancer
+/*# DV Load balancer
 resource "aws_elb" "demoDVLb" {
 
   name = "demoDVLb"
@@ -308,4 +308,4 @@ resource "aws_elb" "demoBOXLb" {
     target = "HTTP:80/"
     interval = 5
   }
-}
+}*/
