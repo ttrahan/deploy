@@ -1,5 +1,5 @@
 # aye-aye-deploy
-This repository contains the files necessary to set up an Amazon EC2 Container Service infrastructure using Terraform, for use with Shippable Formations and the Aye Aye demo.  
+This repository contains the files necessary to set up an Amazon EC2 Container Service infrastructure using Terraform, for use with Shippable pipelines and the Aye Aye demo.  
 
 **The Aye Aye demo consists of two services that run in containers:**
 * A front-end web service
