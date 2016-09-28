@@ -32,14 +32,14 @@ variable "availability_zone" {
 variable "ecsAmi" {
   description = "optimized ECS AMIs"
   default = {
-    us-east-1 = "ami-8f7687e2"
-    us-west-1 = "ami-bb473cdb"
-    us-west-2 = "ami-84b44de4"
-    eu-west-1 = "ami-4e6ffe3d"
-    eu-central-1 = "ami-b0cc23df"
-    ap-northeast-1 = "ami-095dbf68"
-    ap-southeast-1 = "ami-cf03d2ac"
-    ap-southeast-2 = "ami-697a540a"
+    us-east-1 = "ami-3d55272a"
+    us-west-1 = "ami-444d0224"
+    us-west-2 = "ami-1ccd1f7c"
+    eu-west-1 = "ami-b6760fc5"
+    eu-central-1 = "ami-f562909a"
+    ap-northeast-1 = "ami-096cba68"
+    ap-southeast-1 = "ami-7934ee1a"
+    ap-southeast-2 = "ami-22a49541"
   }
 }
 
